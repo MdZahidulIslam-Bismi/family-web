@@ -36,22 +36,59 @@ const Children = () => {
   }, []);
 
   // Delete handler
-  const handleDelete = async (id) => {
-    try {
-      // Note: Use relative path if proxy is configured for DELETE as well
-      await axios.delete(`/api/children/${id}`); 
-      toast.success("Child deleted successfully!");
-      fetchChildren(); 
-    } catch (error) {
-      console.error("Delete failed:", error);
-      toast.error("Failed to delete child!");
-    }
-  };
+  // const handleDelete = async (id) => {
+  //   console.log("Deleting child with id:", id);
+  //   try {
+  //     // Note: Use relative path if proxy is configured for DELETE as well
+  //     await axios.delete(`/api/children/${id}`); 
+  //     toast.success("Child deleted successfully!");
+  //     fetchChildren(); 
+  //   } catch (error) {
+  //     console.error("Delete failed:", error);
+  //     toast.error("Failed to delete child!");
+  //   }
+  // };
+  
+
+
+  const deleteChild = async (id) => {
+  try {
+    // Call backend DELETE endpoint
+    await axios.delete(`http://localhost:8080/api/children/${id}`);
+    toast.success(`Child with id ${id} deleted successfully!`);
+
+    // Refresh children list from backend
+    fetchChildren();
+  } catch (error) {
+    console.error("Error deleting child:", error);
+    toast.error("Failed to delete child!");
+  }
+};
+
+
+//   const handleDelete = async (id) => {
+//   try {
+//     await axios.delete(`http://localhost:8080/api/children/${id}`);
+//     toast.success(`Child with id ${id} deleted successfully!`);
+
+//     // Remove the deleted child from local state so UI updates immediately
+//     setChildren((prev) => prev.filter((child) => child.id !== id));
+//   } catch (error) {
+//     console.error("Error deleting child:", error);
+//     toast.error("Failed to delete child. Please try again.");
+//   }
+// };
+
 
   // Edit child navigation
   const handleEdit = (id) => {
     navigate(`/edit-child/${id}`);
   };
+
+  // const handleEdit = (id) => {
+  //   navigate(`/edit-parent/${id}`);
+  // };
+
 
   return (
     <div className="p-4">
@@ -90,7 +127,7 @@ const Children = () => {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(child.id)}
+                    onClick={() => deleteChild(child.id)}
                     className="bg-red-500 text-white px-3 py-1 rounded"
                   >
                     Delete
