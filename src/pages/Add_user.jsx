@@ -24,14 +24,15 @@ const Add_user = () => {
   });
 
   //-------- Fetch for Children data selection----------------//
-  useEffect(() => {
-  axios
-    .get("http://localhost:8080/api/family") // <-- endpoint returning all families
+useEffect(() => {
+  axios.get("http://localhost:8080/api/family")   // <-- your backend endpoint
     .then((res) => {
-      setParents(res.data);
-      console.log("Parents loaded:", res.data);
+      console.log("Loaded Parents:", res.data);
+  setParents(Array.isArray(res.data) ? res.data : res.data.content || res.data.data || []);
     })
-    .catch((err) => console.error("Error fetching parents:", err));
+    .catch((err) => {
+      console.error("Error fetching parents:", err);
+    });
 }, []);
 
   // --- Fetch parent for edit ---
@@ -62,6 +63,8 @@ const Add_user = () => {
     lastName: "",
     parentId: "",
   });
+
+
 
   // --- Handle Input Changes ---
   const handleParentChange = (e) => {
@@ -278,20 +281,21 @@ const Add_user = () => {
       </div>
       <div>
         <label className="block text-sm mb-1">Select Parent</label>
-          <select
+        <select
           name="parentId"
           value={childData.parentId}
           onChange={handleChildChange}
           required
           className="w-full border rounded px-3 py-2"
         >
-          <option value="">-- Choose Parent --</option>
-          {parents.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.name} ({p.city})
-            </option>
+          <option value="">Select Parent</option>
+  {parents.map((parent) => (
+    <option key={parent.id} value={parent.id}>
+      {parent.name}
+    </option>
           ))}
         </select>
+
       </div>
       <button
         type="submit"

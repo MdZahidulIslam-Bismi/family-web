@@ -8,5 +8,14 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     react()],
+
+    server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080', // your Spring Boot backend
+        changeOrigin: true,
+      },
+    },
+  },
   
 })

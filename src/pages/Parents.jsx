@@ -7,22 +7,34 @@ const Parents = () => {
   const [parents, setParents] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch all parents from backend
+  // Define fetchParents function
+  const fetchParents = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/api/family");
+      setParents(res.data);
+      console.log("Loaded Parents:", res.data);
+    } catch (err) {
+      console.error("Error fetching parents:", err);
+    }
+  };
+
+
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/family")
-      .then((res) => setParents(res.data))
-      .catch((err) => console.error("Error fetching parents:", err));
+    fetchParents();
   }, []);
 
-  // Delete parent by ID
+  // Delete handler now can use fetchParents
   const handleDelete = async (id) => {
-  
-  await axios.delete(`http://localhost:8080/api/family/${id}`);
-  fetchParents();
-};
+    try {
+      await axios.delete(`http://localhost:8080/api/family/${id}`);
+      toast.success("Parent deleted successfully!");
+      fetchParents(); 
+    } catch (error) {
+      console.error("Error deleting parent:", error);
+      toast.error("Failed to delete parent!");
+    }
+  };
 
-  // Edit parent (redirect to edit page)
   const handleEdit = (id) => {
     navigate(`/edit-parent/${id}`);
   };
@@ -63,13 +75,13 @@ const Parents = () => {
                   className="bg-red-500 text-white px-3 py-1 rounded"
                 >
                   Delete
-              export  </button>
+                </button>
               </td>
             </tr>
           ))}
           {parents.length === 0 && (
             <tr>
-              <td colSpan="6" className="text-center p-3">
+              <td colSpan="7" className="text-center p-3">
                 No parents found
               </td>
             </tr>
