@@ -10,7 +10,7 @@ const Add_user = () => {
   const [activeMode, setActiveMode] = useState(MODE_PARENT);
   const [parents, setParents] = useState([]);
   const navigate = useNavigate();
-  const { id } = useParams(); // get parent ID if editing
+  const { id } = useParams(); 
   const isEditMode = Boolean(id);
 
   // --- Parent State ---
@@ -108,7 +108,7 @@ useEffect(() => {
 
       console.log("Response:", response.data);
 
-      // Reset form (optional for add mode)
+      // Reset form 
       if (!isEditMode) {
         setParentData({
           firstName: "",
@@ -143,7 +143,7 @@ useEffect(() => {
       {
         firstName: childData.firstName,
         lastName: childData.lastName,
-        family: { id: childData.parentId } // send the parent id as object
+        family: { id: childData.parentId }
       }
     );
 

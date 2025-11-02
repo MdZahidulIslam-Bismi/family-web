@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Children = () => {
   const [children, setChildren] = useState([]);
   const navigate = useNavigate();
-  const [parents, setParents] = useState([]); // Kept for demonstration, though maybe not needed after backend fix
-
+  const [parents, setParents] = useState([]); 
   // Fetch children
   const fetchChildren = async () => {
     try {
@@ -19,7 +18,7 @@ const Children = () => {
     }
   };
 
-  // Fetch parents (Kept in case frontend lookup is preferred)
+  // Fetch parents 
   const fetchParents = async () => {
     try {
       const res = await axios.get("/api/family");
@@ -106,8 +105,6 @@ const Children = () => {
 
         <tbody>
           {children.map((child) => {
-            // After the backend fix, child.family should be available.
-            // This is the direct, clean way to access the name:
             const parentName = child.family?.name || "No parent";
 
             return (

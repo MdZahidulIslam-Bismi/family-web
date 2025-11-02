@@ -7,7 +7,7 @@ const Parents = () => {
   const [parents, setParents] = useState([]);
   const navigate = useNavigate();
 
-  // Define fetchParents function
+  // Define fetchParents 
   const fetchParents = async () => {
     try {
       const res = await axios.get("http://localhost:8080/api/family");
@@ -23,7 +23,7 @@ const Parents = () => {
     fetchParents();
   }, []);
 
-  // Delete handler now can use fetchParents
+  // Delete handler 
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8080/api/family/${id}`);

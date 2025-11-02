@@ -11,7 +11,7 @@ import Parents from './pages/Parents'
 
 function App() {
   return (
-    <div className="mx-4 sm:mx-[10%] pt-20"> {/* <-- add pt-20 */}
+    <div className="mx-4 sm:mx-[10%] pt-20"> 
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
